@@ -1,0 +1,76 @@
+# author:Ya-Ting Yang
+# Question: 
+# Use a distinct field to retrieve data, like:
+# 1. Type of wine (red or white)
+# 2. Wine score range or baseline (e.g. between 90 and 92 points)
+# 3. Region
+
+
+import pandas as pd
+
+# read the csv file and set the index column to 0
+df = pd.read_csv("sample_data/wine-ratings-small.csv", index_col=0) 
+df.head() # show the first 5 rows of the dataframe  
+
+# check columns' name
+df.columns  
+
+# check data type
+df.info() 
+
+# type of wine
+winetype = df['variety'].unique()
+winetype
+
+# Type of wine and numbers
+winetype = df['variety'].value_counts() 
+winetype
+
+# Wine score range or baseline (e.g. between 90 and 92 points)
+score = df['rating'].between(90, 92) # without using dataframe
+score
+
+# Wine score range or baseline (e.g. between 90 and 92 points)
+score = df[(df['rating'].between(90, 92))] # using dataframe
+score.head() # show first 5 rows
+
+# How may regions in the csv file
+regiontype = df['region'].value_counts() 
+regiontype
+
+# answer the question
+filter_data = df[(df['variety'] == 'Red Wine')
+                & df['rating'].between(90, 92)
+                & (df['region'] == 'Tuscany, Italy')]
+filter_data.head()
+
+# check numbers of filter_data
+len(filter_data)
+
+
+# Capture every row that matches your condition, and after processing, save everything to a formatted new JSON file
+## python to JSON file with pandas ##
+filter_data.to_json("filtered_wine_pandas.json", orient="records", indent=4)
+
+# check JSON file whether can read
+with open("filtered_wine_pandas.json", "r", encoding="utf-8") as f:
+    jsondata_pandas = json.load(f)
+    
+jsondata_pandas
+
+## python to JSON file without pandas ##
+# loading library
+import json
+
+# transform DataFrame to list of dicts
+data_python = filter_data.to_dict(orient="records")
+
+# write in JSON file
+with open("data_python.json", "w", encoding="utf-8") as f:
+    json.dump(data_python, f, indent=4)
+
+# read JSON file
+with open("data_python.json", "r", encoding="utf-8") as f:
+    jsondata_python = json.load(f)
+
+jsondata_python
