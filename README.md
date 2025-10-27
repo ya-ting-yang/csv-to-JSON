@@ -1,7 +1,7 @@
 README — Wine Data Filtering Script
 
-Author: Ya-Ting Yang
-Purpose: Retrieve and filter wine data by distinct fields and save the filtered results to formatted JSON files.
+### Author: Ya-Ting Yang
+### Purpose: Retrieve and filter wine data by distinct fields and save the filtered results to formatted JSON files.
 
 # Description
 This Python script processes a wine dataset and filters rows based on specific conditions, including:
